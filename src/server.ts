@@ -1,17 +1,12 @@
 import express from "express";
 
+import "./database";
+import { routes } from "./routes";
+
 const app = express();
 
-app.get("/", (request, response) => {
-  return response.json({
-    message: "Hello World!",
-  });
-});
+app.use(express.json());
 
-app.post("/", (request, response) => {
-  return response.json({
-    message: "cadastro realizado com sucesso",
-  });
-});
+app.use(routes);
 
 app.listen(3333, () => console.log("Aplicação Rodando!"));
