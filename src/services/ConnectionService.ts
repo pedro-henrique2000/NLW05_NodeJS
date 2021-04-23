@@ -34,6 +34,32 @@ class ConnectionService {
 
     return connection;
   }
+
+  async findAllWithoutAdmin() {
+    const allConnections = await this.connectionRepository.find({
+      where: { admin_id: null },
+      relations: ["user"],
+    });
+
+    return allConnections;
+  }
+
+  async findBySocketID(socket_id: string) {
+    const connection = await this.connectionRepository.findOne({ socket_id });
+
+    return connection;
+  }
+
+  async update(user_id: string, admin_id: string) {
+    const settings = await this.connectionRepository
+      .createQueryBuilder()
+      .update(Connection)
+      .set({ admin_id })
+      .where("user_id = :user_id", { user_id })
+      .execute();
+
+    return settings;
+  }
 }
 
 export { ConnectionService };
